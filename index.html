@@ -12,13 +12,14 @@ body{
   display:flex;
   justify-content:center;
   align-items:center;
+  overflow:hidden;
 }
 .screen{
   display:none;
   text-align:center;
   background:white;
   padding:30px;
-  border-radius:20px;
+  border-radius:24px;
   width:90%;
   max-width:420px;
   box-shadow:0 20px 40px rgba(0,0,0,.2);
@@ -26,33 +27,50 @@ body{
 .active{display:block;}
 button{
   margin:10px;
-  padding:12px 22px;
+  padding:12px 24px;
   border:none;
-  border-radius:25px;
+  border-radius:30px;
   background:#ff4d6d;
   color:white;
   font-size:16px;
   cursor:pointer;
 }
-button:hover{transform:scale(1.05);}
+.back{background:#999;}
 .envelope{
-  font-size:80px;
+  width:120px;
+  height:80px;
+  background:#ff4d6d;
+  margin:0 auto;
+  position:relative;
   cursor:pointer;
 }
-.gift{
-  font-size:50px;
-  cursor:pointer;
-  margin:10px;
+.flap{
+  position:absolute;
+  width:0;
+  height:0;
+  border-left:60px solid transparent;
+  border-right:60px solid transparent;
+  border-bottom:40px solid #ff6f91;
+  top:-40px;
+  transform-origin:bottom;
+  transition:0.6s;
 }
-.heart{
+.open .flap{transform:rotateX(180deg);}
+.hearts span{
   position:fixed;
-  animation:float 4s linear infinite;
-  color:#ff4d6d;
+  bottom:0;
+  font-size:18px;
+  animation:float 6s linear infinite;
 }
 @keyframes float{
-  0%{bottom:0;opacity:0;}
+  0%{transform:translateY(0);opacity:0;}
   50%{opacity:1;}
-  100%{bottom:100%;opacity:0;}
+  100%{transform:translateY(-100vh);opacity:0;}
+}
+.gifts div{
+  font-size:42px;
+  cursor:pointer;
+  margin:12px;
 }
 </style>
 </head>
@@ -61,65 +79,86 @@ button:hover{transform:scale(1.05);}
 
 <!-- Screen 1 -->
 <div class="screen active" id="s1">
-  <div class="envelope" onclick="openEnvelope()">💌</div>
+  <div class="envelope" onclick="openEnvelope(this)">
+    <div class="flap"></div>
+  </div>
   <h2 id="hello" style="display:none;">hello boyfie 💕</h2>
 </div>
 
 <!-- Screen 2 -->
 <div class="screen" id="s2">
-  <h2>Do you love me? 🥺</h2>
-  <button onclick="goYes()">Yes 💖</button>
+  <h2>Do you love me, Bhavv? 🥺</h2>
+  <button onclick="show('s3')">Yes</button>
   <button onclick="stuck()">No</button>
 </div>
 
 <!-- Screen 3 -->
 <div class="screen" id="s3">
   <h2>Will you be my Valentine? 🌹</h2>
-  <button onclick="showGifts()">Yes 💘</button>
+  <button onclick="show('s4')">Yes</button>
   <button onclick="stuck()">No</button>
 </div>
 
-<!-- Screen 4 -->
+<!-- Gifts -->
 <div class="screen" id="s4">
   <h2>Choose a gift 🎁</h2>
-  <div class="gift" onclick="gift1()">🎵</div>
-  <div class="gift" onclick="gift2()">💐</div>
-  <div class="gift" onclick="gift3()">🎟</div>
+  <div class="gifts">
+    <div onclick="show('g1')">🎵</div>
+    <div onclick="show('g2')">💐</div>
+    <div onclick="show('g3')">🎟</div>
+  </div>
 </div>
 
-<!-- Gift Screens -->
+<!-- Gift 1 -->
 <div class="screen" id="g1">
-  <h2>🎵 This Town – Niall Horan</h2>
-  <p>This song reminds me of you, Bhavv 💞</p>
-  <iframe width="100%" height="200"
-  src="https://www.youtube.com/embed/ic1l36GrNOU"
-  allow="autoplay"></iframe>
+  <h2>This Town – Niall Horan</h2>
+  <audio controls autoplay>
+    <source src="https://docs.google.com/uc?export=download&id=1ZtJ0wNiallHoranThisTown" type="audio/mpeg">
+  </audio>
+  <p>This song feels like *us*, Bhavv.</p>
+  <button class="back" onclick="show('s4')">← Go back</button>
 </div>
 
+<!-- Gift 2 -->
 <div class="screen" id="g2">
-  <h2>💐 For You</h2>
+  <h2>For You 💐</h2>
   <p>
-    Imagine this:<br><br>
-    Me, holding lilies 🌸  
-    You, smiling softly 🥹  
-    Both of us blushing because love feels warm and safe 💗
+    Imagine me handing you lilies,<br>
+    you smiling softly,<br>
+    both of us pretending we’re not blushing.
+  </p>
+  <button class="back" onclick="show('s4')">← Go back</button>
+</div>
+
+<!-- Gift 3 -->
+<div class="screen" id="g3">
+  <h2>Valentine Date Coupon 💖</h2>
+  <p>
+    VALID FOR: Bhavv ONLY<br><br>
+    Includes unlimited hugs,<br>
+    one cute date planned by me,<br>
+    mandatory hand-holding,<br>
+    and a lot of us-time.
+  </p>
+  <button class="back" onclick="show('s4')">← Go back</button>
+  <button onclick="show('final')">Continue</button>
+</div>
+
+<!-- Final -->
+<div class="screen" id="final">
+  <h2>Screenshot this 🥹📸</h2>
+  <p>
+    This is officially one of our memories now.<br>
+    I love you, Bhavv 💕
   </p>
 </div>
 
-<div class="screen" id="g3">
-  <h2>🎟 Valentine Date Coupon 💖</h2>
-  <p>
-    💌 VALID FOR: Bhavv Only<br><br>
-    Includes:
-    <br>✨ Unlimited hugs
-    <br>✨ Hand-holding (mandatory)
-    <br>✨ One cute date planned by me
-    <br>✨ Laughing till cheeks hurt
-    <br><br>
-    ❌ No expiry  
-    ❌ No refunds  
-    ❤️ Love guaranteed
-  </p>
+<div class="hearts">
+  <span style="left:10%">❤️</span>
+  <span style="left:30%">💖</span>
+  <span style="left:50%">💕</span>
+  <span style="left:70%">❤️</span>
+  <span style="left:90%">💗</span>
 </div>
 
 <script>
@@ -127,26 +166,14 @@ function show(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
-function openEnvelope(){
+function openEnvelope(el){
+  el.classList.add('open');
   document.getElementById('hello').style.display='block';
-  for(let i=0;i<15;i++){
-    let h=document.createElement('div');
-    h.className='heart';
-    h.style.left=Math.random()*100+'%';
-    h.innerHTML='❤️';
-    document.body.appendChild(h);
-    setTimeout(()=>h.remove(),4000);
-  }
   setTimeout(()=>show('s2'),1500);
 }
-function goYes(){show('s3');}
-function showGifts(){show('s4');}
 function stuck(){
-  alert("You are stuck with me. You don’t have an option. Go back and select yes 😤");
+  alert("You are stuck with me. Go back and select yes 😤");
 }
-function gift1(){show('g1');}
-function gift2(){show('g2');}
-function gift3(){show('g3');}
 </script>
 
 </body>
