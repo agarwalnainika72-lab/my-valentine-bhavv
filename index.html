@@ -3,38 +3,39 @@
 <head>
 <meta charset="UTF-8">
 <title>For Bhavv 💖</title>
+
 <style>
+*{box-sizing:border-box;}
 body{
   margin:0;
   font-family:'Poppins',sans-serif;
-  background:linear-gradient(135deg,#ff9a9e,#fad0c4);
   height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
   overflow:hidden;
 }
+
+/* ---------- COMMON ---------- */
 .screen{
   display:none;
-  background:white;
-  border-radius:24px;
-  width:90%;
-  max-width:420px;
-  height:80vh;
-  box-shadow:0 20px 40px rgba(0,0,0,.2);
-  overflow:hidden;
-}
-.active{display:block;}
-.center{
-  height:100%;
-  display:flex;
+  height:100vh;
+  width:100vw;
+  position:absolute;
+  top:0;left:0;
   justify-content:center;
   align-items:center;
-  flex-direction:column;
+  text-align:center;
+}
+.active{display:flex;}
+.card{
+  background:rgba(255,255,255,0.9);
+  padding:30px;
+  border-radius:26px;
+  width:90%;
+  max-width:420px;
+  box-shadow:0 20px 40px rgba(0,0,0,.25);
 }
 button{
+  padding:12px 26px;
   margin:12px;
-  padding:12px 24px;
   border:none;
   border-radius:30px;
   background:#ff4d6d;
@@ -42,55 +43,85 @@ button{
   font-size:16px;
   cursor:pointer;
 }
-.back{background:#999;}
+.back{background:#888}
+
+/* ---------- BACKGROUNDS ---------- */
+.bg-envelope{background:linear-gradient(135deg,#ff9a9e,#fad0c4);}
+.bg-questions{background:linear-gradient(135deg,#fbc2eb,#a6c1ee);}
+.bg-gifts{background:linear-gradient(135deg,#fddb92,#d1fdff);}
+.bg-song{background:#000;}
+.bg-flowers{background:linear-gradient(135deg,#fdfbfb,#ebedee);}
+.bg-coupon{background:linear-gradient(135deg,#ff758c,#ff7eb3);}
+.bg-final{background:linear-gradient(135deg,#ffe53b,#ff2525);}
+
+/* ---------- ENVELOPE ---------- */
 .envelope{
-  width:120px;
-  height:80px;
+  width:140px;height:90px;
   background:#ff4d6d;
   position:relative;
   cursor:pointer;
 }
 .flap{
   position:absolute;
-  width:0;
-  height:0;
-  border-left:60px solid transparent;
-  border-right:60px solid transparent;
-  border-bottom:40px solid #ff6f91;
-  top:-40px;
+  width:0;height:0;
+  border-left:70px solid transparent;
+  border-right:70px solid transparent;
+  border-bottom:45px solid #ff6f91;
+  top:-45px;
   transform-origin:bottom;
-  transition:0.6s;
+  transition:.7s;
 }
 .open .flap{transform:rotateX(180deg);}
-.gifts{
-  display:flex;
-  justify-content:space-around;
-  font-size:44px;
+
+/* ---------- FLOATING ELEMENTS ---------- */
+.float span{
+  position:fixed;
+  bottom:-20px;
+  font-size:18px;
+  animation:float 8s linear infinite;
 }
+@keyframes float{
+  0%{transform:translateY(0);opacity:0;}
+  30%{opacity:1;}
+  100%{transform:translateY(-110vh);opacity:0;}
+}
+
+/* ---------- GIF FULLSCREEN ---------- */
 .visual{
   width:100%;
   height:100%;
   object-fit:cover;
 }
-.hearts span{
-  position:fixed;
-  bottom:0;
-  font-size:18px;
-  animation:float 6s linear infinite;
+
+/* ---------- GIFT BOX ---------- */
+.gift-box{
+  width:90px;
+  margin:10px;
+  cursor:pointer;
 }
-@keyframes float{
-  0%{transform:translateY(0);opacity:0;}
-  50%{opacity:1;}
-  100%{transform:translateY(-100vh);opacity:0;}
-}
+.gift-box img{width:100%;}
 </style>
 </head>
 
 <body>
 
-<!-- Screen 1 -->
-<div class="screen active" id="s1">
-  <div class="center">
+<!-- 🎶 Background music -->
+<audio id="bgMusic" loop>
+  <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_6b9c6e2f3a.mp3">
+</audio>
+
+<!-- ❤️ Floating elements -->
+<div class="float">
+  <span style="left:10%">❤️</span>
+  <span style="left:25%">✨</span>
+  <span style="left:45%">💖</span>
+  <span style="left:65%">🌸</span>
+  <span style="left:85%">💕</span>
+</div>
+
+<!-- SCREEN 1 -->
+<div class="screen active bg-envelope" id="s1">
+  <div class="card">
     <div class="envelope" onclick="openEnvelope(this)">
       <div class="flap"></div>
     </div>
@@ -98,60 +129,81 @@ button{
   </div>
 </div>
 
-<!-- Screen 2 -->
-<div class="screen" id="s2">
-  <div class="center">
+<!-- SCREEN 2 -->
+<div class="screen bg-questions" id="s2">
+  <div class="card">
     <h2>Do you love me, Bhavv? 🥺</h2>
     <button onclick="show('s3')">Yes</button>
     <button onclick="stuck()">No</button>
   </div>
 </div>
 
-<!-- Screen 3 -->
-<div class="screen" id="s3">
-  <div class="center">
+<!-- SCREEN 3 -->
+<div class="screen bg-questions" id="s3">
+  <div class="card">
     <h2>Will you be my Valentine? 🌹</h2>
     <button onclick="show('s4')">Yes</button>
     <button onclick="stuck()">No</button>
   </div>
 </div>
 
-<!-- Gifts -->
-<div class="screen" id="s4">
-  <div class="center">
+<!-- GIFTS -->
+<div class="screen bg-gifts" id="s4">
+  <div class="card">
     <h2>Choose a gift 🎁</h2>
-    <div class="gifts">
-      <div onclick="show('g1')">🎵</div>
-      <div onclick="show('g2')">💐</div>
-      <div onclick="show('g3')">🎟</div>
+    <div style="display:flex;justify-content:center;">
+      <div class="gift-box" onclick="show('g1')">
+        <img src="https://i.imgur.com/9R0xFJX.png">
+        Gift 1
+      </div>
+      <div class="gift-box" onclick="show('g2')">
+        <img src="https://i.imgur.com/9R0xFJX.png">
+        Gift 2
+      </div>
+      <div class="gift-box" onclick="show('g3')">
+        <img src="https://i.imgur.com/9R0xFJX.png">
+        Gift 3
+      </div>
     </div>
   </div>
 </div>
 
-<!-- Gift 1: Song Vibe -->
-<div class="screen" id="g1">
-  <img class="visual" src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif">
-  <button class="back" onclick="show('s4')" style="position:absolute;bottom:20px;left:20px;">← Go back</button>
+<!-- 🎵 GIFT 1 -->
+<div class="screen bg-song" id="g1">
+  <iframe class="visual"
+    src="https://www.youtube.com/embed/ic1l36GrNOU?autoplay=1&controls=0&mute=0">
+  </iframe>
+  <button class="back" style="position:absolute;bottom:20px;left:20px;"
+    onclick="show('s4')">← Go back</button>
 </div>
 
-<!-- Gift 2: Bouquet -->
-<div class="screen" id="g2">
-  <img class="visual" src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif">
-  <button class="back" onclick="show('s4')" style="position:absolute;bottom:20px;left:20px;">← Go back</button>
+<!-- 💐 GIFT 2 -->
+<div class="screen bg-flowers" id="g2">
+  <img class="visual"
+   src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif">
+  <button class="back" style="position:absolute;bottom:20px;left:20px;"
+    onclick="show('s4')">← Go back</button>
 </div>
 
-<!-- Gift 3: Coupon -->
-<div class="screen" id="g3">
-  <img class="visual" src="https://media.giphy.com/media/xT9IgIc0lryrxvqVGM/giphy.gif">
-  <button class="back" onclick="show('s4')" style="position:absolute;bottom:20px;left:20px;">← Go back</button>
+<!-- 🎟 GIFT 3 -->
+<div class="screen bg-coupon" id="g3">
+  <img class="visual"
+   src="https://media.giphy.com/media/xT9IgIc0lryrxvqVGM/giphy.gif">
+  <button class="back" style="position:absolute;bottom:20px;left:20px;"
+    onclick="show('s4')">← Go back</button>
+  <button style="position:absolute;bottom:20px;right:20px;"
+    onclick="show('final')">Continue</button>
 </div>
 
-<div class="hearts">
-  <span style="left:10%">❤️</span>
-  <span style="left:30%">💖</span>
-  <span style="left:50%">💕</span>
-  <span style="left:70%">❤️</span>
-  <span style="left:90%">💗</span>
+<!-- 📸 FINAL -->
+<div class="screen bg-final" id="final">
+  <div class="card">
+    <h2>Screenshot this 🥹📸</h2>
+    <p>
+      This link is officially one of our memories now.<br><br>
+      I love you, Bhavv 💖
+    </p>
+  </div>
 </div>
 
 <script>
@@ -162,6 +214,7 @@ function show(id){
 function openEnvelope(el){
   el.classList.add('open');
   document.getElementById('hello').style.display='block';
+  document.getElementById('bgMusic').play();
   setTimeout(()=>show('s2'),1500);
 }
 function stuck(){
